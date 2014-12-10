@@ -215,10 +215,12 @@ localsync = (method, model, options) ->
   response = response.attributes if response?.attributes
 
   unless options.ignoreCallbacks
-    if response
-      options.success response
-    else
-      options.error 'Record not found'
+    _.defer(() ->
+      if response
+        options.success response
+      else
+        options.error 'Record not found'
+    )
 
   response
 
